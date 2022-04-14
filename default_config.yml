@@ -1,0 +1,14 @@
+accounts:
+    - tickets:
+        cookie: ""
+        stuid: ""
+        stoken: ""
+        loginTicket: ""
+      BBSTaskConfig:
+        enable: true
+        readPosts: true
+        likePosts: true
+        unlike: true
+        share: true
+      SignTask:
+        genshin: true
