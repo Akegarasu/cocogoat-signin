@@ -11,9 +11,9 @@ import (
 
 const (
 	letterBytes = "abcdefghijklmnopqrstuvwxyz0123456789"
-	saltBBS     = iota
-	saltBBSWeb
-	saltBBSWebOld
+	//saltBBS     = iota
+	//saltBBSWeb
+	//saltBBSWebOld
 )
 
 func RandStringBytes(n int) string {
