@@ -8,6 +8,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/tidwall/gjson"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -29,6 +30,7 @@ type MihoyoBBS struct {
 	LoginTicket string
 	Tasks       *Tasks
 	Posts       []Post
+	Wg          sync.WaitGroup
 }
 
 func NewMihoyoBBS(LoginTicket string, stuid string, stoken string) *MihoyoBBS {
@@ -38,6 +40,7 @@ func NewMihoyoBBS(LoginTicket string, stuid string, stoken string) *MihoyoBBS {
 		Stoken:      stoken,
 		Tasks:       &Tasks{Signin: 0, LikePostsNum: 0, ReadPostsNum: 0, Share: 0},
 		Posts:       make([]Post, 0),
+		Wg:          sync.WaitGroup{},
 	}
 }
 
@@ -171,6 +174,7 @@ func (m *MihoyoBBS) GetPostList(forumID string) error {
 }
 
 func (m *MihoyoBBS) ReadPosts() error {
+	defer m.Wg.Done()
 	if m.Tasks.ReadPostsNum >= 3 {
 		return nil
 	}
@@ -182,16 +186,17 @@ func (m *MihoyoBBS) ReadPosts() error {
 		}
 		msg := r.Get("message").String()
 		if msg == "OK" {
-			log.Infof("看第%d个帖子成功~ 帖子主题: %s", i, m.Posts[i].Subject)
+			log.Infof("看第 %d 个帖子成功~ 帖子主题: %s", i, m.Posts[i].Subject)
 		} else {
-			log.Warnf("看第%d个帖子失败了! 报错: %s", i, msg)
+			log.Warnf("看第 %d 个帖子失败了! 报错: %s", i, msg)
 		}
-		time.Sleep(5 * time.Second)
+		time.Sleep(time.Second * 3)
 	}
 	return nil
 }
 
 func (m *MihoyoBBS) LikePosts() error {
+	defer m.Wg.Done()
 	url := "https://bbs-api.mihoyo.com/apihub/sapi/upvotePost"
 	type LikeData struct {
 		PostID   string `json:"post_id"`
@@ -207,19 +212,23 @@ func (m *MihoyoBBS) LikePosts() error {
 		if err != nil {
 			return err
 		}
-		if gjson.ParseBytes(b).Get("message").String() == "OK" {
+		msg := gjson.ParseBytes(b).Get("message").String()
+		if msg == "OK" {
 			log.Infof("点赞成功 帖子主题: %s", m.Posts[i].Subject)
+		} else {
+			log.Warnf("点赞失败 报错: %s", msg)
 		}
-		time.Sleep(time.Second * 5)
+		time.Sleep(time.Second * 3)
 	}
 	return nil
 }
 
 func (m *MihoyoBBS) SharePosts() error {
+	defer m.Wg.Done()
 	url := fmt.Sprintf("https://bbs-api.mihoyo.com/apihub/api/getShareConf?entity_id=%s&entity_type=1", m.Posts[0].PostID)
 	r, err := m.GetJson(url, m.GetHeaders())
 	if err != nil {
-		log.Warnf("分享帖子失败了: %v", err)
+		log.Warnln("分享帖子失败了: ", err)
 	}
 	msg := r.Get("message").String()
 	if msg == "OK" {
