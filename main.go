@@ -95,7 +95,7 @@ func BBSTask(account *Account, pos int) {
 	}
 	log.Infof("今日米游社任务: 点赞 (%d/5) 看帖子 (%d/3)", m.Tasks.LikePostsNum, m.Tasks.LikePostsNum)
 	log.Infof("分享 (%d/1) 签到 (%d/1)", m.Tasks.Share, m.Tasks.Signin)
-	if m.Tasks.LikePostsNum < 3 && account.BBSTaskConfig.LikePosts {
+	if m.Tasks.LikePostsNum < 5 && account.BBSTaskConfig.LikePosts {
 		log.Info("点赞任务开始")
 		go warp(m.LikePosts)
 		m.Wg.Add(1)
@@ -105,7 +105,7 @@ func BBSTask(account *Account, pos int) {
 		go warp(m.SharePosts)
 		m.Wg.Add(1)
 	}
-	if m.Tasks.ReadPostsNum < 5 && account.BBSTaskConfig.ReadPosts {
+	if m.Tasks.ReadPostsNum < 3 && account.BBSTaskConfig.ReadPosts {
 		log.Info("阅读帖子任务开始")
 		go warp(m.ReadPosts)
 		m.Wg.Add(1)
