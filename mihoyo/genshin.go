@@ -33,7 +33,7 @@ func (g *Genshin) GetHeaders() map[string]string {
 		"x-rpc-client_type": "5", // pc web=4 / mobile web=5
 		"x-rpc-app_version": "2.3.0",
 		"X-Requested-With":  "com.mihoyo.hyperion",
-		"x-rpc-device_id":   "f30a320c-aa0f-43a8-a3d5-971a9e2efcc0",
+		"x-rpc-device_id":   utils.UUID,
 		"Referer":           "https://webstatic.mihoyo.com/bbs/event/signin-ys/index.html?bbs_auth_required=true&act_id=e202009291139501&utm_source=bbs&utm_medium=mys&utm_campaign=icon",
 		"Host":              "bbs-api.mihoyo.com",
 		"User-Agent":        "Mozilla/5.0 (Linux; Android 9; Unspecified Device) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/39.0.0.0 Mobile Safari/537.36 miHoYoBBS/2.3.0",

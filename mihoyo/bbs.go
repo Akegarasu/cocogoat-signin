@@ -69,7 +69,7 @@ func (m *MihoyoBBS) GetHeaders() map[string]string {
 		"x-rpc-app_version":  "2.7.0",
 		"x-rpc-sys_version":  "6.0.1",
 		"x-rpc-channel":      "mihoyo",
-		"x-rpc-device_id":    "f30a320c-aa0f-43a8-a3d5-971a9e2efcc0",
+		"x-rpc-device_id":    utils.UUID,
 		"x-rpc-device_name":  "Mi 10",
 		"x-rpc-device_model": "Mi 10",
 		"Referer":            "https://app.mihoyo.com",

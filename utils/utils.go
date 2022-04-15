@@ -4,6 +4,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
+	"github.com/google/uuid"
 	"math/rand"
 	"strings"
 	"time"
@@ -11,10 +12,9 @@ import (
 
 const (
 	letterBytes = "abcdefghijklmnopqrstuvwxyz0123456789"
-	//saltBBS     = iota
-	//saltBBSWeb
-	//saltBBSWebOld
 )
+
+var UUID = uuid.NewString()
 
 func RandStringBytes(n int) string {
 	b := make([]byte, n)
