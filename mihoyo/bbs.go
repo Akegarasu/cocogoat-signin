@@ -173,7 +173,7 @@ func (m *MihoyoBBS) ReadPosts() error {
 		url := fmt.Sprintf("https://bbs-api.mihoyo.com/post/api/getPostFull?post_id=%s", m.Posts[i].PostID)
 		r, err := utils.GetJson(url, m.GetHeaders())
 		if err != nil {
-			log.Warnf("看第%d个帖子失败了: %v", i, err)
+			return err
 		}
 		msg := r.Get("message").String()
 		if msg == "OK" {

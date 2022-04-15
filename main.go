@@ -37,7 +37,8 @@ func main() {
 	var err error
 	err = configCheck()
 	if err != nil {
-		log.Fatal(err)
+		log.Error(err)
+		Exit()
 	}
 	log.Info("欢迎使用椰羊签到~")
 	for pos, account := range config.Accounts {
@@ -48,7 +49,7 @@ func main() {
 			GenshinTask()
 		}
 	}
-	log.Infof("运行完毕~")
+	log.Info("运行完毕~")
 	Exit()
 }
 
