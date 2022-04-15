@@ -63,15 +63,6 @@ func (m *MihoyoBBS) Login() error {
 	return nil
 }
 
-func (m *MihoyoBBS) GetJson(url string, headers map[string]string) (gjson.Result, error) {
-	b, err := utils.GetBytes(url, headers)
-	if err != nil {
-		return gjson.Result{}, err
-	}
-	result := gjson.ParseBytes(b)
-	return result, nil
-}
-
 func (m *MihoyoBBS) GetHeaders() map[string]string {
 	headers := map[string]string{
 		"x-rpc-client_type":  "2",
@@ -93,12 +84,12 @@ func (m *MihoyoBBS) GetHeaders() map[string]string {
 
 func (m *MihoyoBBS) doLogin() (gjson.Result, error) {
 	url := fmt.Sprintf("https://webapi.account.mihoyo.com/Api/cookie_accountinfo_by_loginticket?login_ticket=%s", m.LoginTicket)
-	return m.GetJson(url, nil)
+	return utils.GetJson(url, nil)
 }
 
 func (m *MihoyoBBS) getMultiTokenByLoginTicket() (gjson.Result, error) {
 	url := fmt.Sprintf("https://api-takumi.mihoyo.com/auth/api/getMultiTokenByLoginTicket?login_ticket=%s&token_types=3&uid=%s", m.LoginTicket, m.Stuid)
-	return m.GetJson(url, nil)
+	return utils.GetJson(url, nil)
 }
 
 func (m *MihoyoBBS) GetTaskList() error {
@@ -180,7 +171,7 @@ func (m *MihoyoBBS) ReadPosts() error {
 	}
 	for i := 1; i <= 3-m.Tasks.ReadPostsNum; i++ {
 		url := fmt.Sprintf("https://bbs-api.mihoyo.com/post/api/getPostFull?post_id=%s", m.Posts[i].PostID)
-		r, err := m.GetJson(url, m.GetHeaders())
+		r, err := utils.GetJson(url, m.GetHeaders())
 		if err != nil {
 			log.Warnf("看第%d个帖子失败了: %v", i, err)
 		}
@@ -226,7 +217,7 @@ func (m *MihoyoBBS) LikePosts() error {
 func (m *MihoyoBBS) SharePosts() error {
 	defer m.Wg.Done()
 	url := fmt.Sprintf("https://bbs-api.mihoyo.com/apihub/api/getShareConf?entity_id=%s&entity_type=1", m.Posts[0].PostID)
-	r, err := m.GetJson(url, m.GetHeaders())
+	r, err := utils.GetJson(url, m.GetHeaders())
 	if err != nil {
 		log.Warnln("分享帖子失败了: ", err)
 	}
