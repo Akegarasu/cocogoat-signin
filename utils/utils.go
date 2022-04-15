@@ -52,7 +52,11 @@ func ParseCookie(s string) map[string]string {
 	sp := strings.Split(s, ";")
 	for _, c := range sp {
 		ds := strings.Split(c, "=")
-		ret[ds[0]] = ds[1]
+		if len(ds) < 2 {
+			ret[ds[0]] = ""
+		} else {
+			ret[ds[0]] = ds[1]
+		}
 	}
 	return ret
 }
