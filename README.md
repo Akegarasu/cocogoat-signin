@@ -11,7 +11,10 @@ _✨ 来自月海亭的秘书王小美帮你做米游社每日任务啦 ✨_
 ### 功能
 - 米游社签到、自动做任务、获取米游币。  
 - 原神签到
-![image](https://user-images.githubusercontent.com/36563862/163519727-99b4951c-3f06-48a6-bdc6-e63b46bb1f58.png)
+
+<div align="center">
+   <img src="https://user-images.githubusercontent.com/36563862/163519727-99b4951c-3f06-48a6-bdc6-e63b46bb1f58.png" width="300" height="300" alt="椰羊签到">
+</div>
 
 ### 配置教程
 
