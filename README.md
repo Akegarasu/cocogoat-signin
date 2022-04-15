@@ -7,13 +7,35 @@ _✨ 来自月海亭的秘书王小美帮你做米游社每日任务啦 ✨_
 
 </div>
 
+<p align="center">
+  <a href="https://raw.githubusercontent.com/Akegarasu/cocogoat-signin/master/LICENSE">
+    <img src="https://img.shields.io/github/license/Akegarasu/cocogoat-signin" alt="license">
+  </a>
+  <a href="https://github.com/Akegarasu/cocogoat-signin/releases">
+    <img src="https://img.shields.io/github/v/release/Akegarasu/cocogoat-signin?color=blueviolet&include_prereleases" alt="release">
+  </a>
+  <a href="https://github.com/Akegarasu/cocogoat-signin/actions">
+    <img src="https://github.com/Akegarasu/cocogoat-signin/workflows/CI/badge.svg" alt="action">
+  </a>
+  <a href="https://goreportcard.com/report/github.com/Akegarasu/cocogoat-signin">
+    <img src="https://goreportcard.com/badge/github.com/Akegarasu/cocogoat-signin" alt="GoReportCard">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/Akegarasu/cocogoat-signin/releases">下载</a>
+  ·
+  <a href="https://github.com/Akegarasu/cocogoat-signin/blob/main/README.md">文档</a>
+  ·
+  <a href="https://github.com/Akegarasu/cocogoat-signin/blob/main/README.md">开始使用</a>
+</p>
 
 ### 功能
 - 米游社签到、自动做任务、获取米游币。  
 - 原神签到
 
 <div align="center">
-   <img src="https://user-images.githubusercontent.com/36563862/163519727-99b4951c-3f06-48a6-bdc6-e63b46bb1f58.png" width="300" height="300" alt="椰羊签到">
+   <img src="https://user-images.githubusercontent.com/36563862/163519727-99b4951c-3f06-48a6-bdc6-e63b46bb1f58.png" width="285" height="300" alt="椰羊签到">
 </div>
 
 ### 配置教程
