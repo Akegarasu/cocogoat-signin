@@ -1,14 +1,12 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
 	"github.com/Akegarasu/cocogoat-signin/mihoyo"
 	"github.com/Akegarasu/cocogoat-signin/utils"
 	log "github.com/sirupsen/logrus"
 	easy "github.com/t-tomalak/logrus-easy-formatter"
 	"gopkg.in/yaml.v3"
-	"io/ioutil"
 	"os"
 	"strings"
 )
@@ -63,7 +61,8 @@ func BBSTask(account *Account, pos int) {
 		if loginTicket, ok := cookieMap["login_ticket"]; ok {
 			account.Tickets.LoginTicket = loginTicket
 		} else {
-			log.Fatalf("账户 %d cookie 错误: 未包含 login_ticket, 请重新按照教程填写", pos)
+			log.Errorf("账户 %d cookie 错误: 未包含 login_ticket, 请重新按照教程填写", pos)
+			Exit()
 		}
 	}
 	m := mihoyo.NewMihoyoBBS(account.Tickets.LoginTicket, account.Tickets.Stuid, account.Tickets.Stoken)
@@ -76,16 +75,7 @@ func BBSTask(account *Account, pos int) {
 		log.Info("登录成功, 正在保存相关 ticket 至配置文件")
 		account.Tickets.Stoken = m.Stoken
 		account.Tickets.Stuid = m.Stuid
-		buf := new(bytes.Buffer)
-		err = yaml.NewEncoder(buf).Encode(config)
-		if err != nil {
-			log.Error("格式化配置文件出错", err)
-			Exit()
-		}
-		err = ioutil.WriteFile("config.yml", buf.Bytes(), 0644)
-		if err != nil {
-			log.Error("保存配置文件出错", err)
-		}
+		saveConfig()
 	}
 	err = m.GetTaskList()
 	if err != nil {

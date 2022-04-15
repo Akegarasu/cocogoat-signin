@@ -1,10 +1,13 @@
 package main
 
 import (
+	"bytes"
 	_ "embed"
 	"errors"
 	"fmt"
 	log "github.com/sirupsen/logrus"
+	"gopkg.in/yaml.v3"
+	"io/ioutil"
 	"os"
 	"strings"
 )
@@ -52,4 +55,17 @@ func generateDefaultConfig() {
 	sb.WriteString(defaultConfig)
 	_ = os.WriteFile("config.yml", []byte(sb.String()), 0o644)
 	log.Info("默认配置文件已生成，请修改 config.yml 后重新启动!")
+}
+
+func saveConfig() {
+	buf := new(bytes.Buffer)
+	err := yaml.NewEncoder(buf).Encode(config)
+	if err != nil {
+		log.Error("格式化配置文件出错", err)
+		Exit()
+	}
+	err = ioutil.WriteFile("config.yml", buf.Bytes(), 0644)
+	if err != nil {
+		log.Error("保存配置文件出错", err)
+	}
 }
