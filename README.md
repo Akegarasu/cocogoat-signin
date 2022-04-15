@@ -27,7 +27,7 @@ _✨ 来自月海亭的秘书王小美帮你做米游社每日任务啦 ✨_
   ·
   <a href="https://github.com/Akegarasu/cocogoat-signin/blob/main/README.md">文档</a>
   ·
-  <a href="https://github.com/Akegarasu/cocogoat-signin/blob/main/README.md">开始使用</a>
+  <a href="https://docs.qq.com/doc/DZFF0aWRzcGhRcWd4">图文教程</a>
 </p>
 
 ### 功能
@@ -38,7 +38,13 @@ _✨ 来自月海亭的秘书王小美帮你做米游社每日任务啦 ✨_
    <img src="https://user-images.githubusercontent.com/36563862/163519727-99b4951c-3f06-48a6-bdc6-e63b46bb1f58.png" width="285" height="300" alt="椰羊签到">
 </div>
 
+### 推荐 · 图文教程
+
+[椰羊签到使用教程](https://docs.qq.com/doc/DZFF0aWRzcGhRcWd4)
+
 ### 配置教程
+
+如果你了解如何编写yml文件 推荐以下教程，否则推荐看上方的图文教程
 
 #### 获取程序并修改配置文件
 在 [release](https://github.com/Akegarasu/cocogoat-signin/releases) 中下载适合你系统的版本，解压并修改配置文件`config.yml`(使用记事本打开即可)
