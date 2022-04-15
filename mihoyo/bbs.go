@@ -238,3 +238,19 @@ func (m *MihoyoBBS) SharePosts() error {
 	}
 	return nil
 }
+
+func (m *MihoyoBBS) Signin() error {
+	defer m.Wg.Done()
+	url := fmt.Sprintf("https://bbs-api.mihoyo.com/apihub/sapi/signIn?gids=%s", "26")
+	b, err := utils.PostBytes(url, []byte(`{}`), m.GetHeaders())
+	if err != nil {
+		return err
+	}
+	msg := gjson.ParseBytes(b).Get("message").String()
+	if msg == "OK" {
+		log.Info("签到成功")
+	} else {
+		log.Warnf("签到失败~ 可能是 cookie 过期了请重新获取cookie! 报错: %s", msg)
+	}
+	return nil
+}
