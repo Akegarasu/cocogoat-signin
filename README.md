@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="https://user-images.githubusercontent.com/36563862/163517395-dcd65622-08d8-428e-9f35-d6a85becba79.png" width="200" height="200" alt="椰羊签到">
+
 # 椰羊签到
 _✨ 来自月海亭的秘书王小美帮你做米游社每日任务啦 ✨_
 
