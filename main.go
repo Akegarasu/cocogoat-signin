@@ -43,10 +43,12 @@ func main() {
 	log.Info("欢迎使用椰羊签到~")
 	for pos, account := range config.Accounts {
 		if account.BBSTaskConfig.Enable {
+			log.Info("开始进行米游社任务")
 			BBSTask(account, pos)
 		}
 		if account.SignTask.Genshin {
-			GenshinTask()
+			log.Info("开始进行原神签到")
+			GenshinTask(account, pos)
 		}
 	}
 	log.Info("运行完毕~")
@@ -117,6 +119,7 @@ func BBSTask(account *Account, pos int) {
 		m.Wg.Add(1)
 	}
 	m.Wg.Wait()
+	log.Info("今日任务已经完成")
 }
 
 func GenshinTask() {
