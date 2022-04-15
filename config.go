@@ -1,10 +1,10 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	_ "embed"
-	"errors"
-	"fmt"
+	"github.com/Akegarasu/cocogoat-signin/utils"
 	log "github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v3"
 	"io/ioutil"
@@ -36,6 +36,7 @@ type Account struct {
 }
 
 var config = &Config{}
+var console = bufio.NewReader(os.Stdin)
 
 // defaultConfig 默认配置文件
 //go:embed default_config.yml
@@ -44,10 +45,28 @@ var defaultConfig string
 func configCheck() error {
 	for pos, c := range config.Accounts {
 		if c.Tickets.Cookie == "" {
-			return errors.New(fmt.Sprintf("第 %d 个账户未配置cookie", pos))
+			log.Errorf("第 %d 个账户未配置cookie", pos)
+			inputCookie(c)
+			saveConfig()
 		}
 	}
 	return nil
+}
+
+func inputCookie(a *Account) {
+	log.Infof("请粘贴 cookie 后按回车: ")
+	cookie := readLine()
+	pc := utils.ParseCookie(cookie)
+	if _, ok := pc["login_ticket"]; !ok {
+		log.Error("该 cookie 缺少 login_ticket 请确认按照教程登录了两个网站")
+	}
+	a.Tickets.Cookie = cookie
+}
+
+func readLine() (str string) {
+	str, _ = console.ReadString('\n')
+	str = strings.TrimSpace(str)
+	return
 }
 
 func generateDefaultConfig() {
