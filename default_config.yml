@@ -1,9 +1,9 @@
 accounts:
     - tickets:
-        cookie: "" # 在这个地方两个引号之间填写你按照教程获取的 cookie
-        stuid: "" # 不用管 由程序自动填写
-        stoken: "" # 不用管 由程序自动填写
-        loginTicket: "" # 不用管 由程序自动填写
+        cookie: # 在这个地方井号之前填写你按照教程获取的 cookie
+        stuid: # 不用管 由程序自动填写
+        stoken: # 不用管 由程序自动填写
+        loginTicket: # 不用管 由程序自动填写
       BBSTaskConfig:
         enable: true # 是否启用米游社任务 true为启用 false为禁用 下面一样
         readPosts: true # 阅读帖子任务
