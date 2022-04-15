@@ -178,7 +178,7 @@ func (m *MihoyoBBS) ReadPosts() error {
 	if m.Tasks.ReadPostsNum >= 3 {
 		return nil
 	}
-	for i := 3 - m.Tasks.ReadPostsNum; i >= 0; i-- {
+	for i := 1; i <= 3-m.Tasks.ReadPostsNum; i++ {
 		url := fmt.Sprintf("https://bbs-api.mihoyo.com/post/api/getPostFull?post_id=%s", m.Posts[i].PostID)
 		r, err := m.GetJson(url, m.GetHeaders())
 		if err != nil {
