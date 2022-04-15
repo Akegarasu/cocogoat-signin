@@ -30,7 +30,7 @@ _✨ 来自月海亭的秘书王小美帮你做米游社每日任务啦 ✨_
   <a href="https://docs.qq.com/doc/DZFF0aWRzcGhRcWd4">图文教程</a>
 </p>
 
-### 功能
+## 功能
 - 米游社签到、自动做任务、获取米游币。  
 - 原神签到
 
@@ -38,11 +38,11 @@ _✨ 来自月海亭的秘书王小美帮你做米游社每日任务啦 ✨_
    <img src="https://user-images.githubusercontent.com/36563862/163519727-99b4951c-3f06-48a6-bdc6-e63b46bb1f58.png" width="285" height="300" alt="椰羊签到">
 </div>
 
-### 推荐 · 图文教程
+## 推荐 · 图文教程
 
 [椰羊签到使用教程](https://docs.qq.com/doc/DZFF0aWRzcGhRcWd4)
 
-### 配置教程
+## 配置教程
 
 如果你了解如何编写yml文件 推荐以下教程，否则推荐看上方的图文教程
 
