@@ -127,3 +127,42 @@ type PostListResp struct {
 		IsOrigin bool   `json:"is_origin"`
 	} `json:"data"`
 }
+
+type GenshinAccountsResp struct {
+	Retcode int    `json:"retcode"`
+	Message string `json:"message"`
+	Data    struct {
+		List []struct {
+			GameBiz    string `json:"game_biz"`
+			Region     string `json:"region"`
+			GameUID    string `json:"game_uid"`
+			Nickname   string `json:"nickname"`
+			Level      int    `json:"level"`
+			IsChosen   bool   `json:"is_chosen"`
+			RegionName string `json:"region_name"`
+			IsOfficial bool   `json:"is_official"`
+		} `json:"list"`
+	} `json:"data"`
+}
+
+type GenshinSignInfoResp struct {
+	Retcode int             `json:"retcode"`
+	Message string          `json:"message"`
+	Data    GenshinSignInfo `json:"data"`
+}
+
+type GenshinSignInfo struct {
+	TotalSignDay  int    `json:"total_sign_day"`
+	Today         string `json:"today"`
+	IsSign        bool   `json:"is_sign"`
+	FirstBind     bool   `json:"first_bind"`
+	IsSub         bool   `json:"is_sub"`
+	MonthFirst    bool   `json:"month_first"`
+	SignCntMissed int    `json:"sign_cnt_missed"`
+}
+
+type GenshinSignPostData struct {
+	ActID  string `json:"act_id"`
+	Region string `json:"region"`
+	UID    string `json:"uid"`
+}

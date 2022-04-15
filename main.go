@@ -122,8 +122,19 @@ func BBSTask(account *Account, pos int) {
 	log.Info("今日任务已经完成")
 }
 
-func GenshinTask() {
-	// todo: add genshin
+func GenshinTask(account *Account, pos int) {
+	var err error
+	g := mihoyo.NewGenshin(account.Tickets.Cookie)
+	err = g.GetAccountList()
+	if err != nil {
+		log.Error("获取原神账号列表失败", err)
+	}
+	log.Infof("共获取到 %d 个绑定的原神账号", len(g.Accounts))
+	if len(g.Accounts) == 0 {
+		log.Errorf("账户 %d 没有绑定原神账号", pos)
+		return
+	}
+	g.SignIn()
 }
 
 func warp(f func() error) {
