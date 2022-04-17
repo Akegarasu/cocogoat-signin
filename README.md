@@ -33,6 +33,7 @@ _✨ 来自月海亭的秘书王小美帮你做米游社每日任务啦 ✨_
 ## 功能
 - 米游社签到、自动做任务、获取米游币。  
 - 原神签到
+- 米游社抢购 (米游币兑换)
 
 <div align="center">
    <img src="https://user-images.githubusercontent.com/36563862/163519727-99b4951c-3f06-48a6-bdc6-e63b46bb1f58.png" width="285" height="300" alt="椰羊签到">
@@ -47,8 +48,7 @@ _✨ 来自月海亭的秘书王小美帮你做米游社每日任务啦 ✨_
 如果你了解如何编写yml文件 推荐以下教程，否则推荐看上方的图文教程
 
 #### 获取程序并修改配置文件
-在 [release](https://github.com/Akegarasu/cocogoat-signin/releases) 中下载适合你系统的版本，解压并修改配置文件`config.yml`(使用记事本打开即可)
-在`config.yml`中修改`cookie`
+在 [release](https://github.com/Akegarasu/cocogoat-signin/releases) 中下载适合你系统的版本，解压并修改配置文件`config.yml`中的`cookie`
 
 #### 获取米游社cookie
 1. 打开你的浏览器,进入**无痕/隐身模式**
@@ -73,4 +73,38 @@ _✨ 来自月海亭的秘书王小美帮你做米游社每日任务啦 ✨_
 
 #### 修改配置文件
 
-将上一步获取到的 `cookie` 粘贴在 `config.yml` 里
+将上一步获取到的 `cookie` 粘贴在 `config.yml` 对应位置
+
+#### 多账户支持
+
+example:
+
+```yaml
+accounts:
+    - tickets:
+        cookie: # 在这个地方井号之前填写你按照教程获取的 cookie
+        stuid: # 不用管 由程序自动填写
+        stoken: # 不用管 由程序自动填写
+        loginTicket: # 不用管 由程序自动填写
+      BBSTaskConfig:
+        enable: true # 是否启用米游社任务 true为启用 false为禁用 下面一样
+        readPosts: true # 阅读帖子任务
+        likePosts: true # 点赞帖子任务
+        unlike: true # 点赞完毕后取消
+        share: true # 分享任务
+      SignTask:
+        genshin: true # 原神签到
+    - tickets:
+         cookie: # 在这个地方井号之前填写你按照教程获取的 cookie
+         stuid: # 不用管 由程序自动填写
+         stoken: # 不用管 由程序自动填写
+         loginTicket: # 不用管 由程序自动填写
+      BBSTaskConfig:
+         enable: true # 是否启用米游社任务 true为启用 false为禁用 下面一样
+         readPosts: true # 阅读帖子任务
+         likePosts: true # 点赞帖子任务
+         unlike: true # 点赞完毕后取消
+         share: true # 分享任务
+      SignTask:
+         genshin: true # 原神签到
+```
