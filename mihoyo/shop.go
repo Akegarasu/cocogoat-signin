@@ -5,7 +5,6 @@ import (
 	"github.com/Akegarasu/cocogoat-signin/utils"
 	log "github.com/sirupsen/logrus"
 	"net/url"
-	"sync"
 	"time"
 )
 
@@ -16,7 +15,6 @@ const (
 type HomuShop struct {
 	cookie   string
 	GoodList []*HomuShopGood
-	Wg       sync.WaitGroup
 }
 
 func NewHomuShop(cookie string) *HomuShop {

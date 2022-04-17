@@ -167,9 +167,7 @@ func RushMysGood(cookie string) {
 		log.Warnf("输入非数字 请重新选择")
 	}
 	log.Infof("选择了 %d 号商品", ch)
-	go h.Rush(ch)
-	h.Wg.Add(1)
-	h.Wg.Wait()
+	h.Rush(ch)
 }
 
 func warp(f func() error) {
