@@ -166,3 +166,40 @@ type GenshinSignPostData struct {
 	Region string `json:"region"`
 	UID    string `json:"uid"`
 }
+
+type HomuShopGoodListResp struct {
+	Retcode int    `json:"retcode"`
+	Message string `json:"message"`
+	Data    struct {
+		List  []*HomuShopGood `json:"list"`
+		Total int             `json:"total"`
+		Games []struct {
+			Name string `json:"name"`
+			Key  string `json:"key"`
+		} `json:"games"`
+	} `json:"data"`
+}
+
+type HomuShopGood struct {
+	AppID              int    `json:"app_id"`
+	GoodsID            string `json:"goods_id"`
+	GoodsName          string `json:"goods_name"`
+	Type               int    `json:"type"`
+	Price              int    `json:"price"`
+	PointSn            string `json:"point_sn"`
+	Icon               string `json:"icon"`
+	Unlimit            bool   `json:"unlimit"`
+	Total              int    `json:"total"`
+	AccountCycleType   string `json:"account_cycle_type"`
+	AccountCycleLimit  int    `json:"account_cycle_limit"`
+	AccountExchangeNum int    `json:"account_exchange_num"`
+	RoleCycleType      string `json:"role_cycle_type"`
+	RoleCycleLimit     int    `json:"role_cycle_limit"`
+	RoleExchangeNum    int    `json:"role_exchange_num"`
+	Start              string `json:"start"`
+	End                string `json:"end"`
+	Status             string `json:"status"`
+	NextTime           int    `json:"next_time"`
+	NextNum            int    `json:"next_num"`
+	NowTime            int    `json:"now_time"`
+}

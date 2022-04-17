@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"github.com/Akegarasu/cocogoat-signin/mihoyo"
 	"github.com/Akegarasu/cocogoat-signin/utils"
@@ -8,10 +9,14 @@ import (
 	easy "github.com/t-tomalak/logrus-easy-formatter"
 	"gopkg.in/yaml.v3"
 	"os"
+	"strconv"
 	"strings"
 )
 
+var rushMysGood bool
+
 func init() {
+	flag.BoolVar(&rushMysGood, "g", false, "抢米游社商品")
 	log.SetFormatter(&easy.Formatter{
 		TimestampFormat: "2006-01-02 15:04:05",
 		LogFormat:       "[椰羊签到][%time%][%lvl%]: %msg% \n",
@@ -33,20 +38,25 @@ func init() {
 
 func main() {
 	var err error
+	flag.Parse()
 	err = configCheck()
 	if err != nil {
 		log.Error(err)
 		Exit()
 	}
 	log.Info("欢迎使用椰羊签到~")
-	for pos, account := range config.Accounts {
-		if account.BBSTaskConfig.Enable {
-			log.Info("开始进行米游社任务")
-			BBSTask(account, pos)
-		}
-		if account.SignTask.Genshin {
-			log.Info("开始进行原神签到")
-			GenshinTask(account, pos)
+	if rushMysGood {
+		RushMysGood(config.Accounts[0].Tickets.Cookie)
+	} else {
+		for pos, account := range config.Accounts {
+			if account.BBSTaskConfig.Enable {
+				log.Info("开始进行米游社任务")
+				BBSTask(account, pos)
+			}
+			if account.SignTask.Genshin {
+				log.Info("开始进行原神签到")
+				GenshinTask(account, pos)
+			}
 		}
 	}
 	log.Info("运行完毕~")
@@ -125,6 +135,40 @@ func GenshinTask(account *Account, pos int) {
 		return
 	}
 	g.SignIn()
+}
+
+func RushMysGood(cookie string) {
+	var ch int
+	h := mihoyo.NewHomuShop(cookie)
+	err := h.GetGoodsList()
+	if err != nil {
+		log.Error(err)
+	}
+	showLen := func() int {
+		if len(h.GoodList) > 10 {
+			return 10
+		} else {
+			return len(h.GoodList)
+		}
+	}
+	for i := 0; i < showLen(); i++ {
+		g := h.GoodList[i]
+		log.Infof("%d) 商品名称: %s ID: %s", i+1, g.GoodsName, g.GoodsID)
+	}
+	log.Infof("请选择...")
+	for i := 0; i < 5; i++ {
+		l := readLine()
+		r, err := strconv.Atoi(l)
+		if err == nil {
+			ch = r
+			break
+		}
+		log.Warnf("输入非数字 请重新选择")
+	}
+	log.Infof("选择了 %d 号商品", ch)
+	go h.Rush(ch)
+	h.Wg.Add(1)
+	h.Wg.Wait()
 }
 
 func warp(f func() error) {
