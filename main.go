@@ -143,6 +143,7 @@ func RushMysGood(cookie string) {
 	err := h.GetGoodsList()
 	if err != nil {
 		log.Error(err)
+		Exit()
 	}
 	showLen := func() int {
 		if len(h.GoodList) > 10 {

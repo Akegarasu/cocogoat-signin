@@ -61,6 +61,9 @@ func (h *HomuShop) GetGoodsList() error {
 	}
 	g := new(HomuShopGoodListResp)
 	err = json.Unmarshal(b, g)
+	if err != nil {
+		return err
+	}
 	h.GoodList = g.Data.List
 	return nil
 }
