@@ -149,7 +149,7 @@ func RushMysGood(cookie string) {
 		g := h.GoodList[i]
 		log.Infof("%d) %s", i+1, g.GoodsName)
 	}
-	log.Infof("请选择...")
+	log.Infof("请选择商品编号")
 	for {
 		ch, err = utils.ReadNumber()
 		if err == nil {
