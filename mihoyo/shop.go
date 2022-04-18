@@ -4,12 +4,9 @@ import (
 	"encoding/json"
 	"github.com/Akegarasu/cocogoat-signin/utils"
 	log "github.com/sirupsen/logrus"
+	"github.com/tidwall/gjson"
 	"net/url"
 	"time"
-)
-
-const (
-	success = iota
 )
 
 type HomuShop struct {
@@ -66,12 +63,32 @@ func (h *HomuShop) GetGoodsList() error {
 	return nil
 }
 
-func (h *HomuShop) exchange(choice int) (int, error) {
-	log.Info(choice)
-	return success, nil
+func (h *HomuShop) exchange(choice int, uid string) (int, string, error) {
+	goodChoice := h.GoodList[choice]
+	// region 游戏服务器分区 cn_gf01(官服)/cn_qd01（渠道服，如b服，小米服）
+	// game_biz 商品分区 hk4e_cn
+	data := map[string]any{
+		"app_id":       1,
+		"point_sn":     "myb",
+		"goods_id":     goodChoice.GoodsID,
+		"exchange_num": 1,
+		"uid":          uid,
+		"region":       "cn_gf01",
+		"game_biz":     "hk4e_cn",
+	}
+	b, err := json.Marshal(data)
+	if err != nil {
+		return -1, "", err
+	}
+	ret, err := utils.PostBytes("https://api-takumi.mihoyo.com/mall/v1/web/goods/exchange", b, h.GetHeaders())
+	if err != nil {
+		return -1, "", err
+	}
+	j := gjson.ParseBytes(ret)
+	return int(j.Get("retcode").Int()), j.Get("message").String(), nil
 }
 
-func (h *HomuShop) Rush(choice int) {
+func (h *HomuShop) Rush(choice int, uid string) {
 	goodChoice := h.GoodList[choice]
 	for {
 		now := int(time.Now().Unix())
@@ -85,12 +102,20 @@ func (h *HomuShop) Rush(choice int) {
 	log.Infof("距抢购开始小于3秒 开始")
 	for i := 1; i < 50; i++ {
 		log.Infof("正在抢第 %d 次", i)
-		ret, err := h.exchange(choice)
-		if ret == success {
+		ret, msg, err := h.exchange(choice, uid)
+		if err != nil {
+			log.Error(err)
+			continue
+		}
+		if ret == 0 {
 			log.Infof("------------第 %d 次成功抢到了哦-------------", i)
 			break
 		} else {
-			log.Infof("抢购失败 原因: %s", err)
+			log.Infof("抢购失败 原因: %s", msg)
+			// -2101 超过购买次数限制 -2102 抢光了 -2110 uid不对
+			if ret == -2101 || ret == -2102 || ret == -2110 {
+				break
+			}
 		}
 	}
 }

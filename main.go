@@ -9,7 +9,6 @@ import (
 	easy "github.com/t-tomalak/logrus-easy-formatter"
 	"gopkg.in/yaml.v3"
 	"os"
-	"strconv"
 	"strings"
 )
 
@@ -138,36 +137,55 @@ func GenshinTask(account *Account, pos int) {
 }
 
 func RushMysGood(cookie string) {
-	var ch int
+	var ch, uch int
+	var uid string
 	h := mihoyo.NewHomuShop(cookie)
 	err := h.GetGoodsList()
 	if err != nil {
-		log.Error(err)
+		log.Error("获取兑换列表出错", err)
 		Exit()
 	}
-	showLen := func() int {
-		if len(h.GoodList) > 10 {
-			return 10
-		} else {
-			return len(h.GoodList)
-		}
-	}
-	for i := 0; i < showLen(); i++ {
+	for i := 0; i < len(h.GoodList); i++ {
 		g := h.GoodList[i]
-		log.Infof("%d) 商品名称: %s ID: %s", i+1, g.GoodsName, g.GoodsID)
+		log.Infof("%d) %s", i+1, g.GoodsName)
 	}
 	log.Infof("请选择...")
-	for i := 0; i < 5; i++ {
-		l := readLine()
-		r, err := strconv.Atoi(l)
+	for {
+		ch, err = utils.ReadNumber()
 		if err == nil {
-			ch = r
+			ch = ch - 1
 			break
 		}
 		log.Warnf("输入非数字 请重新选择")
 	}
 	log.Infof("选择了 %d 号商品", ch)
-	h.Rush(ch)
+	if h.GoodList[ch].Type == 2 {
+		log.Info("选择了虚拟商品 正在获取绑定账号")
+		genshin := mihoyo.NewGenshin(cookie)
+		err = genshin.GetAccountList()
+		if err != nil {
+			log.Error("获取绑定的原神账号失败")
+		}
+		if len(genshin.Accounts) > 1 {
+			for i := 0; i < len(genshin.Accounts); i++ {
+				log.Infof("%d) uid: %s 昵称: %s", i+1, genshin.Accounts[i].Uid, genshin.Accounts[i].NickName)
+			}
+			log.Info("请选择 uid")
+			for {
+				uch, err = utils.ReadNumber()
+				if err == nil {
+					uid = genshin.Accounts[uch-1].Uid
+					break
+				}
+				log.Warnf("输入非数字 请重新选择")
+			}
+
+		} else {
+			uid = genshin.Accounts[0].Uid
+		}
+		log.Infof("选择了uid: %s", uid)
+	}
+	h.Rush(ch, uid)
 }
 
 func warp(f func() error) {
