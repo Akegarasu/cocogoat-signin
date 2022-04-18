@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"bytes"
 	_ "embed"
 	"github.com/Akegarasu/cocogoat-signin/utils"
@@ -36,7 +35,6 @@ type Account struct {
 }
 
 var config = &Config{}
-var console = bufio.NewReader(os.Stdin)
 
 // defaultConfig 默认配置文件
 //go:embed default_config.yml
@@ -55,18 +53,12 @@ func configCheck() error {
 
 func inputCookie(a *Account) {
 	log.Infof("请粘贴 cookie 后按回车: ")
-	cookie := readLine()
+	cookie := utils.ReadLine()
 	pc := utils.ParseCookie(cookie)
 	if _, ok := pc["login_ticket"]; !ok {
 		log.Error("该 cookie 缺少 login_ticket 请确认按照教程登录了两个网站")
 	}
 	a.Tickets.Cookie = cookie
-}
-
-func readLine() (str string) {
-	str, _ = console.ReadString('\n')
-	str = strings.TrimSpace(str)
-	return
 }
 
 func generateDefaultConfig() {

@@ -1,11 +1,14 @@
 package utils
 
 import (
+	"bufio"
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
 	"github.com/google/uuid"
 	"math/rand"
+	"os"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -15,6 +18,23 @@ const (
 )
 
 var UUID = uuid.NewString()
+var console = bufio.NewReader(os.Stdin)
+
+func ReadLine() (str string) {
+	str, _ = console.ReadString('\n')
+	str = strings.TrimSpace(str)
+	return
+}
+
+func ReadNumber() (int, error) {
+	str, _ := console.ReadString('\n')
+	str = strings.TrimSpace(str)
+	r, err := strconv.Atoi(str)
+	if err == nil {
+		return r, nil
+	}
+	return 0, err
+}
 
 func RandStringBytes(n int) string {
 	b := make([]byte, n)
