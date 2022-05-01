@@ -196,8 +196,10 @@ func warp(f func() error) {
 }
 
 func Exit() {
-	var input string
-	log.Infoln("按回车退出...")
-	_, _ = fmt.Scanln(&input)
+	if os.Getenv("TENCENTCLOUD_RUNENV") != "SCF" {
+		var input string
+		log.Infoln("按回车退出...")
+		_, _ = fmt.Scanln(&input)
+	}
 	os.Exit(0)
 }
