@@ -1,0 +1,22 @@
+#!/bin/sh
+
+echo "Start bootstrap" 
+export PATH=$(pwd):${PATH}
+curl -d " " -X POST -s "http://$SCF_RUNTIME_API:$SCF_RUNTIME_API_PORT/runtime/init/ready"
+./cocogoat-signin
+
+function main_handler () {
+  RESPONSE="已经结束嘞~！"
+
+  echo $RESPONSE
+}
+while true
+do
+  HEADERS="$(mktemp)"
+  # 长轮询获取事件
+  EVENT_DATA=$(curl -sS -LD "$HEADERS" -X GET -s "http://$SCF_RUNTIME_API:$SCF_RUNTIME_API_PORT/runtime/invocation/next")
+  # 调用函数处理事件
+  RESPONSE=$($(echo "$_HANDLER" | cut -d. -f2) "$EVENT_DATA")
+  # 推送函数处理结果
+  curl -X POST -s "http://$SCF_RUNTIME_API:$SCF_RUNTIME_API_PORT/runtime/invocation/response"  -d "$RESPONSE"
+done
